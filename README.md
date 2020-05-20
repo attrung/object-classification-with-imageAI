@@ -1,5 +1,5 @@
 # object-classification-with-imageAI
  
-To run:
+# To run:
 
-type python app.py in terminal
+type <i> python app.py <i> in terminal
