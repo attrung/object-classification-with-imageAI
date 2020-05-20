@@ -1,28 +1,40 @@
-import os
+import os, shutil
 from flask import Flask, render_template, request, redirect, flash, url_for
+
+from testData import run_analyze
 
 app = Flask(__name__)
 
-# root path
-APP_ROOT = os.path.dirname(os.path.realpath(__file__))
-
 # path to static folder (for image static)
-UPLOAD_FOLDER = APP_ROOT + '/static/upload/'
+image_folder = 'static/image/'
 
 # allowed image file extensions
 ALLOWED_EXTENSIONS = {'png', 'jpg'} # allows png and jpg files
 
 # app configuration
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['image_folder'] = image_folder
+app.secret_key = "development key"
 
 @app.route('/')
 def main():
+    for filename in os.listdir(image_folder):
+        file_path = os.path.join(image_folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
     return render_template("index.html")
 
 @app.route('/uploadImage', methods = ['POST'])
 def postImage():
     if request.method == 'POST':
         # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
@@ -33,13 +45,23 @@ def postImage():
         ext = file.filename.split('.')[-1]
         if file and ext in ALLOWED_EXTENSIONS:
             global filename
-            filename = "image" + '.' + ext
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file', filename = filename))
+            # filename = "input" + "." + ext
+            filename = file.filename
+            file.save(os.path.join(app.config['image_folder'], filename))
+            return redirect(url_for('analyzeImage'))
 
 @app.route('/analyzeImage')
-def uploaded_file():
-    return render_template("main.html", filename = filename)
+def analyzeImage():
+    output_filename = filename.split('.')[0] + "_output" + '.png'
+    ans = run_analyze(output_filename)
+    if ans:
+        return render_template("main.html", filename = filename, output = output_filename)
+    else:
+        return "error"
+
+@app.route('/displayImage/<filename>')
+def displayImage(filename):
+    return redirect(url_for('static', filename='image/' + filename))
 
 if __name__ == '__main__':
     app.run("localhost", 5000, debug = True)
