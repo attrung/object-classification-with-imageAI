@@ -2,8 +2,8 @@
  
 # To run:
 
-# type 
+Type: 
 
 <i> python app.py </i> 
 
-# in terminal
+in terminal
