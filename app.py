@@ -3,8 +3,8 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 
 app = Flask(__name__)
 
-# path to upload folder (for image upload)
-UPLOAD_FOLDER = r'C:\Users\John Nguyen\Documents\GitHub\object-classification-with-imageAI\upload'
+# path to static folder (for image static)
+UPLOAD_FOLDER = r'C:\Users\John Nguyen\Documents\GitHub\object-classification-with-imageAI\static\upload'
 
 # allowed image file extensions
 ALLOWED_EXTENSIONS = {'png', 'jpg'} # allows png and jpg files
@@ -29,13 +29,13 @@ def postImage():
         # if there is a file, we save it for later analysis
         ext = file.filename.split('.')[-1]
         if file and ext in ALLOWED_EXTENSIONS:
+            global filename
             filename = "image" + '.' + ext
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file'), filename = filename)
+            return redirect(url_for('uploaded_file', filename = filename))
 
 @app.route('/analyzeImage')
 def uploaded_file():
-    filename = request.filename
     return render_template("main.html", filename = filename)
 
 if __name__ == '__main__':
