@@ -16,7 +16,16 @@ def objectDetection(inputPath, outputPath, prob):
         nameList.append(str(eachObject["name"]))
         probList.append(eachObject["percentage_probability"])
     nameList = unique(nameList)
+    print(nameList)
     return nameList, probList
 
 def unique(nameList):
-    for
+    d = {}
+    for pos in range(len(nameList)):
+        if nameList[pos] in d:
+            nameList[pos] += str(d[nameList[pos]] + 1)
+            d[nameList[pos]] += 1
+        else:
+            d[nameList[pos]] = 1
+    return nameList
+
