@@ -26,6 +26,6 @@ def unique(nameList):
             nameList[pos] += str(d[nameList[pos]] + 1)
             d[nameList[pos]] += 1
         else:
-            d[nameList[pos]] = 1
+            d[nameList[pos]] = 0
     return nameList
 
