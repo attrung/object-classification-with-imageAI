@@ -1,7 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-def run_analyze(output_filename):
+def run_analyze(filename, output_filename):
     # opening the data and separate into data + label list
     org = open("TestData/data.in", "r")
     org = org.read()
