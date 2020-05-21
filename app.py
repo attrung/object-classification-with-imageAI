@@ -1,7 +1,6 @@
 import os, shutil
 from flask import Flask, render_template, request, redirect, flash, url_for
-
-from testData import run_analyze
+from ObjectDetection import objectDetection
 
 app = Flask(__name__)
 
@@ -53,9 +52,9 @@ def postImage():
 @app.route('/analyzeImage')
 def analyzeImage():
     output_filename = filename.split('.')[0] + "_output" + '.png'
-    ans = run_analyze(filename, output_filename)
+    ans = objectDetection(filename, output_filename)
     if ans:
-        return render_template("main.html", filename = filename, output = output_filename)
+        return render_template("main.html", output = output_filename)
     else:
         return "error"
 

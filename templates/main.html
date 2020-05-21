@@ -7,14 +7,13 @@
 </head>
 <body>
 
-{% if filename %}
-	<div>
-		<img src="{{ url_for('displayImage', filename=filename) }}" height = "500px">
-	</div>
-{% endif %}
+<!--{% if filename %}-->
+<!--	<div>-->
+<!--		<img src="{{ url_for('displayImage', filename=filename) }}" height = "500px">-->
+<!--	</div>-->
+<!--{% endif %}-->
 
 <br>
-
 {% if output %}
 	<div>
 		<img src="{{ url_for('displayImage', filename=output) }}" height = "500px">
