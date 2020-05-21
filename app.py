@@ -53,7 +53,7 @@ def postImage():
 @app.route('/analyzeImage')
 def analyzeImage():
     output_filename = filename.split('.')[0] + "_output" + '.png'
-    ans = run_analyze(output_filename)
+    ans = run_analyze(filename, output_filename)
     if ans:
         return render_template("main.html", filename = filename, output = output_filename)
     else:
