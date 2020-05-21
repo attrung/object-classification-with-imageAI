@@ -1,6 +1,7 @@
 import os, shutil
 from flask import Flask, render_template, request, redirect, flash, url_for
 from objectDetection import objectDetection
+from createGraph import createGraph
 import json
 
 app = Flask(__name__)
@@ -55,11 +56,9 @@ def analyzeImage():
     output_filename = filename.split('.')[0] + "_output" + '.png'
     prob = 50
     final_label, final_prob = objectDetection(filename, output_filename, prob)
-    prob_data = []
-    for i in range(len(final_label)):
-        prob_data.append({final_label[i][5:-5]: final_prob[i]})
-    prob_data = json.dumps(prob_data)
-    return render_template("main.html", output = output_filename, data = prob_data)
+    graph_filename = filename.split('.')[0] + "_graph" + '.png'
+    ans = createGraph(final_label, final_prob, graph_filename)
+    return render_template("main.html", output = output_filename, graph = graph_filename)
 
 @app.route('/displayImage/<filename>')
 def displayImage(filename):

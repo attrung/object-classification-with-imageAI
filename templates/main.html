@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <title> Analyzing Image </title>
     <script src="static/js/jquery-3.5.1.min.js">  </script>
-    <script>
-
-    var data = '{{data}}'
-
-        console.log(data)
-
-    </script>
 </head>
 <body>
 
@@ -27,11 +20,11 @@
 	</div>
 {% endif %}
 
-{% if data %}
-    <div id = "probabilityTemplate">
 
-
-    </div>
+{% if graph %}
+	<div>
+		<img src="{{ url_for('displayImage', filename=graph) }}" height = "500px">
+	</div>
 {% endif %}
 
 <br>

@@ -12,7 +12,11 @@ def objectDetection(inputPath, outputPath, prob):
 
     nameList = []
     probList = []
-    for eachObject in detections:  
-        nameList.append(eachObject["name"])
+    for eachObject in detections:
+        nameList.append(str(eachObject["name"]))
         probList.append(eachObject["percentage_probability"])
+    nameList = unique(nameList)
     return nameList, probList
+
+def unique(nameList):
+    for
