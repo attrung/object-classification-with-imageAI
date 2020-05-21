@@ -17,13 +17,13 @@ def objectDetection(inputPath, outputPath, prob):
         probList.append(eachObject["percentage_probability"])
     return nameList, probList
 
-def main():
-    inputPath = "static/upload/image.jpg"
-    outputPath = "static/upload/imagenew.jpg"
-    probability = 80
-
-    objectDetection(inputPath, outputPath, probability)
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     inputPath = "static/upload/image.jpg"
+#     outputPath = "static/upload/imagenew.jpg"
+#     probability = 80
+#
+#     objectDetection(inputPath, outputPath, probability)
+#
+# if __name__ == "__main__":
+#     main()
 
