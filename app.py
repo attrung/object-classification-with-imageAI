@@ -1,6 +1,7 @@
 import os, shutil
 from flask import Flask, render_template, request, redirect, flash, url_for
 from ObjectDetection import objectDetection
+import json
 
 app = Flask(__name__)
 
@@ -52,11 +53,13 @@ def postImage():
 @app.route('/analyzeImage')
 def analyzeImage():
     output_filename = filename.split('.')[0] + "_output" + '.png'
-    ans = objectDetection(filename, output_filename)
-    if ans:
-        return render_template("main.html", output = output_filename)
-    else:
-        return "error"
+    prob = 80
+    final_label, final_prob = objectDetection(filename, output_filename, prob)
+    prob_data = []
+    for i in range(len(final_label)):
+        prob_data.append({final_label[i]:final_prob[i]})
+    prob_data = json.dump(prob_data)
+    return render_template("main.html", output = output_filename)
 
 @app.route('/displayImage/<filename>')
 def displayImage(filename):
