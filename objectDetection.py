@@ -1,14 +1,14 @@
 from imageai.Detection import ObjectDetection
 import os
 
-execution_path = os.getcwd() + '/static/image/'
+execution_path = os.getcwd()
 
 def objectDetection(inputPath, outputPath, prob):
     detector = ObjectDetection()
     detector.setModelTypeAsTinyYOLOv3()
     detector.setModelPath( os.path.join(execution_path , "yolo-tiny.h5"))
     detector.loadModel()
-    detections = detector.detectObjectsFromImage(input_image = os.path.join(execution_path, inputPath), output_image_path = os.path.join(execution_path, outputPath), minimum_percentage_probability = prob)
+    detections = detector.detectObjectsFromImage(input_image = os.path.join(execution_path + '/static/image/', inputPath), output_image_path = os.path.join(execution_path + '/static/image/', outputPath), minimum_percentage_probability = prob)
 
     nameList = []
     probList = []
