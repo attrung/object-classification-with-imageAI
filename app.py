@@ -2,7 +2,10 @@ import os, shutil
 from flask import Flask, render_template, request, redirect, flash, url_for
 from objectDetection import objectDetection
 from createGraph import createGraph
-import json
+import random
+
+# counter to set file name (avoiding cache)
+counter = int(random.random()*10000000)
 
 app = Flask(__name__)
 
@@ -14,10 +17,12 @@ ALLOWED_EXTENSIONS = {'png', 'jpg'} # allows png and jpg files
 
 # app configuration
 app.config['image_folder'] = image_folder
+app.config['file_counter'] = counter
 app.secret_key = "development key"
 
 @app.route('/')
 def main():
+    app.config['file_counter'] += 1
     for filename in os.listdir(image_folder):
         file_path = os.path.join(image_folder, filename)
         try:
@@ -46,8 +51,7 @@ def postImage():
         ext = file.filename.split('.')[-1]
         if file and ext in ALLOWED_EXTENSIONS:
             global filename
-            # filename = "input" + "." + ext
-            filename = file.filename
+            filename = str(app.config['file_counter']) + "." + ext
             file.save(os.path.join(app.config['image_folder'], filename))
             return redirect(url_for('analyzeImage'))
 

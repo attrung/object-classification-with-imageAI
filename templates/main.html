@@ -15,16 +15,12 @@
 
 <br>
 {% if output %}
-	<div>
-		<img src="{{ url_for('displayImage', filename=output) }}" height = "500px">
-	</div>
+		<img src="{{ url_for('displayImage', filename=output) }}" width = "700px">
 {% endif %}
 
 
 {% if graph %}
-	<div>
-		<img src="{{ url_for('displayImage', filename=graph) }}" height = "500px">
-	</div>
+		<img src="{{ url_for('displayImage', filename=graph) }}" width = "700px">
 {% endif %}
 
 <br>
